@@ -47,6 +47,10 @@ public class Main extends PApplet{
 	PImage pantallagirar2;
 	PImage pantallagirar3;
 	
+
+	private Tesla tesla;
+	private Usuario actual;
+	private Automovil autoActual;
 	
 	
 	public static void main(String[] args) {
@@ -55,10 +59,23 @@ public class Main extends PApplet{
 	}
 	
 	
+	ControlP5 cp5_pantalla4;
+	
 	
 	public void setup() {
+		tesla=new Tesla();
+		cp5_pantalla4=new ControlP5(this);
 		
 		
+		
+		
+		cp5_pantalla4.addTextfield("Nombres").setPosition(24,200).setSize(300,41).setAutoClear(true);
+		cp5_pantalla4.addTextfield("Apellidos").setPosition(24,290).setSize(300,41).setAutoClear(true);
+		cp5_pantalla4.addTextfield("Correo").setPosition(24,380).setSize(300,41).setAutoClear(true);
+		cp5_pantalla4.addTextfield("Clave").setPosition(24,470).setSize(300,41).setAutoClear(true);
+		
+		
+	
 		
 		
 		
@@ -95,6 +112,7 @@ public class Main extends PApplet{
 		pantalla30=loadImage("./Interfaz 30.png");
 		pantallaActual=pantalla1;
 		pantalla=1;
+		cp5_pantalla4.hide();
 		pantallagirar=pantalla12;
 		pantallagirar2=pantalla16;
 		pantallagirar3=pantalla20;
@@ -131,13 +149,13 @@ public class Main extends PApplet{
     		if((mouseX>=70 && mouseX<280)&&(mouseY>=557 &&mouseY<607)) {
     			pantalla=4;
     			pantallaActual=pantalla4;
-    			
+    			cp5_pantalla4.show();
     			
     		}
     		else if((mouseX>=70 && mouseX<280)&&(mouseY>=615 &&mouseY<665)) {
     			pantalla=6;
     			pantallaActual=pantalla6;
-    			
+  
     			
     				
     		}
@@ -149,13 +167,14 @@ public class Main extends PApplet{
     	{
     		
     		if((mouseX>=55 && mouseX<285)&&(mouseY>=450 &&mouseY<500)) {
-    			
+    		
     			
     			
     				
     				pantalla=9;
     				pantallaActual=pantalla9;
-    				
+    			
+  
     			
     			
     			
@@ -164,7 +183,7 @@ public class Main extends PApplet{
     		else if((mouseX>=55 && mouseX<285)&&(mouseY>=600 &&mouseY<700)){
     			pantalla=3;
 				pantallaActual=pantalla3;
-		
+				
     		}
     	
     }
@@ -172,13 +191,20 @@ public class Main extends PApplet{
     	{
     		if((mouseX>=55 && mouseX<285)&&(mouseY>=600 &&mouseY<650)) {
     			
-    			
-    			
+    			String nombre=cp5_pantalla4.get(Textfield.class, "Nombres").getText();
+    			String apellido=cp5_pantalla4.get(Textfield.class, "Apellidos").getText();
+    			String correo=cp5_pantalla4.get(Textfield.class, "Correo").getText();
+    			String clave=cp5_pantalla4.get(Textfield.class, "Clave").getText();
+    			if(!nombre.equals("") && !apellido.equals("") && !correo.equals("") && !clave.equals("")) {
     				pantalla=3;
         			pantallaActual=pantalla3;
-    		
-    			
-    			
+    				tesla.getUsuarios().add(new Usuario(nombre, apellido, correo, clave));
+    				System.out.println("El usuario "+nombre+" "+apellido+" ha sido registrado");
+    				cp5_pantalla4.hide();
+    			}
+    			else {
+    				System.out.println("Ningun campo debe de estar vacio");
+    			}
     			
     		}
     	}
@@ -283,20 +309,18 @@ public class Main extends PApplet{
     	    	 if((mouseX>=55 && mouseX<285)&&(mouseY>=578 &&mouseY<618)) {
                 	 pantalla=22;
          			pantallaActual=pantalla22; 
-         			
+         
+         			autoActual=tesla.getAutomoviles().get(2);
         			
          			
     }
 }
     	else if(pantalla==22) {
     	    	 if((mouseX>=55 && mouseX<285)&&(mouseY>=621 &&mouseY<671)) {
-    	    		
-    	    			
-    	    				
+    	    		     	    				
     	    				pantalla=24;
     	    				pantallaActual=pantalla24;  
     	    				
-    	    			
     	    			
     	    	 }
     	     }
@@ -304,7 +328,7 @@ public class Main extends PApplet{
         	    	 if((mouseX>=55 && mouseX<285)&&(mouseY>=620 &&mouseY<660)) {
                     	 pantalla=25;
              			pantallaActual=pantalla25;
-             		
+             			
              			
     	    	  
         	    	 }
@@ -312,12 +336,9 @@ public class Main extends PApplet{
         	    	 else if(pantalla==25) {
             	    	 if((mouseX>=55 && mouseX<285)&&(mouseY>=540 &&mouseY<580)) {
             	    		 
-         	    		
-         	    				
          	    				pantalla=27;
          	    				pantallaActual=pantalla27; 
-         	    				         	    			
-         	    			
+         	    				
                  			
                  			
             	            }
@@ -329,6 +350,9 @@ public class Main extends PApplet{
                         	 pantalla=28;
                  			pantallaActual=pantalla28; 
                  			
+                 			for(Historico h : actual.getCompras()) {
+                 				System.out.println("Compra de auto "+h.getCompraRealizada() + ", se pago "+h.getMontoCompra()+" con cilindraje "+h.getGamaAuto());
+                 			}
                  			  	    	 
     }
 }
@@ -348,7 +372,7 @@ public class Main extends PApplet{
             	    	 if((mouseX>=75 && mouseX<285)&&(mouseY>=635 &&mouseY<675)) {
                         	 pantalla=9;
                  			pantallaActual=pantalla9;
-                 			
+                 			autoActual=tesla.getAutomoviles().get(1);
     }
             	    	 else if((mouseX>=75 && mouseX<285)&&(mouseY>=593 &&mouseY<633)) {
                         	 pantalla=22;
@@ -359,7 +383,7 @@ public class Main extends PApplet{
             	    	 if((mouseX>=75 && mouseX<285)&&(mouseY>=628 &&mouseY<668)) {
                         	 pantalla=9;
                  			pantallaActual=pantalla9;  
-                 		
+                 			autoActual=tesla.getAutomoviles().get(0);
     }
             	    	 else if((mouseX>=75 && mouseX<285)&&(mouseY>=585 &&mouseY<625)) {
                         	 pantalla=22;
