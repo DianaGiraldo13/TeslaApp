@@ -60,12 +60,14 @@ public class Main extends PApplet{
 	
 	
 	ControlP5 cp5_pantalla4;
+	ControlP5 cp5_pantalla6;
+
 	
 	
 	public void setup() {
 		tesla=new Tesla();
 		cp5_pantalla4=new ControlP5(this);
-		
+		cp5_pantalla6 = new ControlP5(this);
 		
 		
 		
@@ -73,9 +75,9 @@ public class Main extends PApplet{
 		cp5_pantalla4.addTextfield("Apellidos").setPosition(24,290).setSize(300,41).setAutoClear(true);
 		cp5_pantalla4.addTextfield("Correo").setPosition(24,380).setSize(300,41).setAutoClear(true);
 		cp5_pantalla4.addTextfield("Clave").setPosition(24,470).setSize(300,41).setAutoClear(true);
-		
-		
-	
+		cp5_pantalla6.addTextfield("Correo").setPosition(24,200).setSize(300,41).setAutoClear(true);
+		cp5_pantalla6.addTextfield("Clave").setPosition(24,300).setSize(300,41).setAutoClear(true);
+		cp5_pantalla6.hide();
 		
 		
 		
@@ -155,7 +157,7 @@ public class Main extends PApplet{
     		else if((mouseX>=70 && mouseX<280)&&(mouseY>=615 &&mouseY<665)) {
     			pantalla=6;
     			pantallaActual=pantalla6;
-  
+    			cp5_pantalla6.show();
     			
     				
     		}
@@ -167,15 +169,25 @@ public class Main extends PApplet{
     	{
     		
     		if((mouseX>=55 && mouseX<285)&&(mouseY>=450 &&mouseY<500)) {
-    		
-    			
-    			
+    			String correo=cp5_pantalla6.get(Textfield.class, "Correo").getText();
+    			String clave=cp5_pantalla6.get(Textfield.class, "Clave").getText();
+    			boolean encontrado=false;
+    			for(Usuario u : tesla.getUsuarios()) {
+    				if(u.getCorreo().equals(correo) && u.getContra().equals(clave)) {
+    					encontrado=true;
+    					actual=u;
+    					break;
+    				}
+    			}
+    			if(encontrado) {
     				
     				pantalla=9;
     				pantallaActual=pantalla9;
-    			
-  
-    			
+    				cp5_pantalla6.hide();
+    			}
+    			else {
+    				System.out.println("Los datos estan erroneos o el usuario no esta registrado");
+    			}
     			
     			
 
@@ -183,7 +195,7 @@ public class Main extends PApplet{
     		else if((mouseX>=55 && mouseX<285)&&(mouseY>=600 &&mouseY<700)){
     			pantalla=3;
 				pantallaActual=pantalla3;
-				
+				cp5_pantalla6.hide();
     		}
     	
     }
@@ -309,7 +321,6 @@ public class Main extends PApplet{
     	    	 if((mouseX>=55 && mouseX<285)&&(mouseY>=578 &&mouseY<618)) {
                 	 pantalla=22;
          			pantallaActual=pantalla22; 
-         
          			autoActual=tesla.getAutomoviles().get(2);
         			
          			
@@ -317,7 +328,7 @@ public class Main extends PApplet{
 }
     	else if(pantalla==22) {
     	    	 if((mouseX>=55 && mouseX<285)&&(mouseY>=621 &&mouseY<671)) {
-    	    		     	    				
+    	    		 
     	    				pantalla=24;
     	    				pantallaActual=pantalla24;  
     	    				
@@ -336,9 +347,13 @@ public class Main extends PApplet{
         	    	 else if(pantalla==25) {
             	    	 if((mouseX>=55 && mouseX<285)&&(mouseY>=540 &&mouseY<580)) {
             	    		 
+         	    			
+         	    				
          	    				pantalla=27;
          	    				pantallaActual=pantalla27; 
          	    				
+         	    				actual.getCompras().add(new Historico(autoActual.getModelo(), autoActual.getPrecio(), autoActual.getCilindraje()));
+            	    	 
                  			
                  			
             	            }
@@ -349,7 +364,7 @@ public class Main extends PApplet{
             	    	 if((mouseX>=55 && mouseX<285)&&(mouseY>=540 &&mouseY<580)) {
                         	 pantalla=28;
                  			pantallaActual=pantalla28; 
-                 			
+         
                  			for(Historico h : actual.getCompras()) {
                  				System.out.println("Compra de auto "+h.getCompraRealizada() + ", se pago "+h.getMontoCompra()+" con cilindraje "+h.getGamaAuto());
                  			}
