@@ -62,6 +62,7 @@ public class Main extends PApplet{
 	ControlP5 cp5_pantalla4;
 	ControlP5 cp5_pantalla6;
 	ControlP5 cp5_pantalla22;
+	ControlP5 cp5_pantalla25;
 	
 	
 	
@@ -70,7 +71,8 @@ public class Main extends PApplet{
 		cp5_pantalla4=new ControlP5(this);
 		cp5_pantalla6 = new ControlP5(this);
 		cp5_pantalla22 = new ControlP5(this);
-		
+		cp5_pantalla25 = new ControlP5(this);
+	
 		
 		
 		
@@ -88,6 +90,13 @@ public class Main extends PApplet{
 		cp5_pantalla22.addTextfield("Fecha de expiracion").setPosition(24,410).setSize(300,41).setAutoClear(true);
 		cp5_pantalla22.addTextfield("Numero de identificacion").setPosition(24,475).setSize(300,41).setAutoClear(true);
 		cp5_pantalla22.hide();
+		
+		cp5_pantalla25.addTextfield("Direccion").setPosition(24,165).setSize(300,41).setAutoClear(true);
+		cp5_pantalla25.addTextfield("Barrio/Apto").setPosition(24,265).setSize(300,41).setAutoClear(true);
+		cp5_pantalla25.addTextfield("Numero de contacto").setPosition(24,358).setSize(300,41).setAutoClear(true);
+		cp5_pantalla25.addTextfield("Ciudad").setPosition(24,450).setSize(300,41).setAutoClear(true);
+		cp5_pantalla25.hide();
+		
 		
 		
 		
@@ -360,22 +369,27 @@ public class Main extends PApplet{
         	    	 if((mouseX>=55 && mouseX<285)&&(mouseY>=620 &&mouseY<660)) {
                     	 pantalla=25;
              			pantallaActual=pantalla25;
-             	
+             			cp5_pantalla25.show();
              			
     	    	  
         	    	 }
     	    	 }
         	    	 else if(pantalla==25) {
             	    	 if((mouseX>=55 && mouseX<285)&&(mouseY>=540 &&mouseY<580)) {
-            	    		
-         	    			
+            	    		 String direccion=cp5_pantalla25.get(Textfield.class, "Direccion").getText();
+         	    			String barrio=cp5_pantalla25.get(Textfield.class, "Barrio/Apto").getText();
+         	    			String contacto=cp5_pantalla25.get(Textfield.class, "Numero de contacto").getText();
+         	    			String ciudad=cp5_pantalla25.get(Textfield.class, "Ciudad").getText();
+         	    			if(!direccion.equals("") && !barrio.equals("") && !contacto.equals("") && !ciudad.equals("") ) {
          	    				
          	    				pantalla=27;
          	    				pantallaActual=pantalla27; 
-         	    				
+         	    				cp5_pantalla25.hide();
          	    				actual.getCompras().add(new Historico(autoActual.getModelo(), autoActual.getPrecio(), autoActual.getCilindraje()));
-         	    			
-         	    			
+         	    			}
+         	    			else {
+         	    				System.out.println("Todos los campos deben de estar llenos");
+         	    			}
                  			
                  			
             	            }
@@ -386,7 +400,7 @@ public class Main extends PApplet{
             	    	 if((mouseX>=55 && mouseX<285)&&(mouseY>=540 &&mouseY<580)) {
                         	 pantalla=28;
                  			pantallaActual=pantalla28; 
-                 
+                 		
                  			for(Historico h : actual.getCompras()) {
                  				System.out.println("Compra de auto "+h.getCompraRealizada() + ", se pago "+h.getMontoCompra()+" con cilindraje "+h.getGamaAuto());
                  			}
