@@ -63,7 +63,7 @@ public class Main extends PApplet{
 	ControlP5 cp5_pantalla6;
 	ControlP5 cp5_pantalla22;
 	ControlP5 cp5_pantalla25;
-	
+	ControlP5 cp5_pantalla28;
 	
 	
 	public void setup() {
@@ -72,7 +72,7 @@ public class Main extends PApplet{
 		cp5_pantalla6 = new ControlP5(this);
 		cp5_pantalla22 = new ControlP5(this);
 		cp5_pantalla25 = new ControlP5(this);
-	
+		cp5_pantalla28 = new ControlP5(this);
 		
 		
 		
@@ -97,7 +97,7 @@ public class Main extends PApplet{
 		cp5_pantalla25.addTextfield("Ciudad").setPosition(24,450).setSize(300,41).setAutoClear(true);
 		cp5_pantalla25.hide();
 		
-		
+		cp5_pantalla28.addTextarea("Historial:").setPosition(0,0).setSize(300,300);
 		
 		
 		
@@ -400,7 +400,7 @@ public class Main extends PApplet{
             	    	 if((mouseX>=55 && mouseX<285)&&(mouseY>=540 &&mouseY<580)) {
                         	 pantalla=28;
                  			pantallaActual=pantalla28; 
-                 		
+                 			cp5_pantalla28.show();
                  			for(Historico h : actual.getCompras()) {
                  				System.out.println("Compra de auto "+h.getCompraRealizada() + ", se pago "+h.getMontoCompra()+" con cilindraje "+h.getGamaAuto());
                  			}
